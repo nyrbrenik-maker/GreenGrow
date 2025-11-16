@@ -53,18 +53,13 @@ const Settings = {
     },
 
     attachEventListeners() {
-        // Google Sheets config form
-        const configForm = document.getElementById('sheets-config-form');
-        configForm.onsubmit = async (e) => {
-            e.preventDefault();
-            await this.saveConfiguration();
-        };
-
         // Test connection button
         const testBtn = document.getElementById('test-connection');
-        testBtn.onclick = async () => {
-            await this.testConnection();
-        };
+        if (testBtn) {
+            testBtn.onclick = async () => {
+                await this.testConnection();
+            };
+        }
 
         // Manage reference data buttons
         document.getElementById('manage-effects').onclick = () => {
@@ -90,54 +85,16 @@ const Settings = {
     },
 
     loadSavedConfig() {
-        const apiKey = localStorage.getItem(CONFIG.STORAGE_KEYS.API_KEY);
-        const sheetId = localStorage.getItem(CONFIG.STORAGE_KEYS.SHEET_ID);
-
-        if (apiKey) {
-            document.getElementById('api-key').value = apiKey;
-        }
-
-        if (sheetId) {
-            document.getElementById('sheet-id').value = sheetId;
-        }
-    },
-
-    async saveConfiguration() {
-        const apiKey = document.getElementById('api-key').value.trim();
-        const sheetId = document.getElementById('sheet-id').value.trim();
-
-        if (!apiKey || !sheetId) {
-            UI.showToast('Please fill in all fields', 'error');
-            return;
-        }
-
-        try {
-            UI.showLoading('Saving configuration...');
-            SheetsAPI.init(apiKey, sheetId);
-
-            // Test the connection
-            await SheetsAPI.testConnection();
-
-            UI.hideLoading();
-            UI.showToast('Configuration saved successfully', 'success');
-        } catch (error) {
-            UI.hideLoading();
-            UI.showToast('Configuration saved, but connection test failed: ' + error.message, 'warning');
+        // Credentials are now embedded in api.js, no config needed
+        const statusEl = document.getElementById('connection-status');
+        if (statusEl) {
+            statusEl.innerHTML = '<p style="color: var(--success-color);"><i class="fas fa-check-circle"></i> Service account configured and ready!</p>';
         }
     },
 
     async testConnection() {
-        const apiKey = document.getElementById('api-key').value.trim();
-        const sheetId = document.getElementById('sheet-id').value.trim();
-
-        if (!apiKey || !sheetId) {
-            UI.showToast('Please save configuration first', 'error');
-            return;
-        }
-
         try {
             UI.showLoading('Testing connection...');
-            SheetsAPI.init(apiKey, sheetId);
             const result = await SheetsAPI.testConnection();
 
             UI.hideLoading();
@@ -158,9 +115,12 @@ const Settings = {
                         </ul>
                     </div>
                     <div class="form-group">
+                        <p style="color: var(--success-color);">
+                            <i class="fas fa-check-circle"></i>
+                            <strong>Service Account Authentication Active!</strong>
+                        </p>
                         <p class="text-muted text-small">
-                            <i class="fas fa-info-circle"></i>
-                            Make sure your sheets are named according to the configuration in config.js
+                            Full read/write access enabled. All data operations will work correctly.
                         </p>
                     </div>
                 `,

@@ -3,8 +3,8 @@ const App = {
     currentPage: 'dashboard',
 
     async init() {
-        // Check if API is configured
-        const hasCredentials = SheetsAPI.loadCredentials();
+        // Initialize API (credentials are embedded)
+        SheetsAPI.loadCredentials();
 
         // Check if user is logged in
         const isLoggedIn = Auth.init();
@@ -12,10 +12,6 @@ const App = {
         // Show appropriate screen
         if (!isLoggedIn) {
             this.showLoginScreen();
-        } else if (!hasCredentials) {
-            this.showApp();
-            this.navigateTo('settings');
-            UI.showToast('Please configure Google Sheets connection', 'info', 5000);
         } else {
             this.showApp();
             await this.loadInitialData();
@@ -46,13 +42,8 @@ const App = {
             // Show app
             this.showApp();
 
-            // Load initial data if API is configured
-            if (SheetsAPI.isConfigured()) {
-                await this.loadInitialData();
-            } else {
-                this.navigateTo('settings');
-                UI.showToast('Please configure Google Sheets connection', 'info', 5000);
-            }
+            // Load initial data (credentials are always configured)
+            await this.loadInitialData();
         };
     },
 

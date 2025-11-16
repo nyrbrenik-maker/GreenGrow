@@ -288,25 +288,25 @@
                 </div>
                 <div class="settings-container">
                     <div class="settings-card">
-                        <h2><i class="fas fa-database"></i> Google Sheets Configuration</h2>
-                        <form id="sheets-config-form">
-                            <div class="form-group">
-                                <label for="api-key">Google Sheets API Key</label>
-                                <input type="password" id="api-key" placeholder="Enter your API key">
-                                <small>Your API key is stored locally in your browser</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="sheet-id">Spreadsheet ID</label>
-                                <input type="text" id="sheet-id" placeholder="Enter your Google Sheets ID">
-                                <small>Find this in your Google Sheets URL</small>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Save Configuration
-                            </button>
-                            <button type="button" id="test-connection" class="btn btn-secondary">
-                                <i class="fas fa-plug"></i> Test Connection
-                            </button>
-                        </form>
+                        <h2><i class="fas fa-database"></i> Google Sheets Connection</h2>
+                        <div id="connection-status" class="form-group">
+                            <p style="color: var(--success-color);">
+                                <i class="fas fa-check-circle"></i>
+                                <strong>Service Account Configured</strong>
+                            </p>
+                            <p class="text-muted text-small">
+                                GreenGrow is connected to your Google Sheets using service account authentication.
+                                Full read/write access is enabled.
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <label>Spreadsheet</label>
+                            <p><strong>GreenGrow Data</strong></p>
+                            <small>ID: 1c8PM_dUZMTdjqg8vPl2VAxVPIU3D9G4yOiKjip2GQP8</small>
+                        </div>
+                        <button type="button" id="test-connection" class="btn btn-primary">
+                            <i class="fas fa-plug"></i> Test Connection
+                        </button>
                     </div>
 
                     <div class="settings-card">
